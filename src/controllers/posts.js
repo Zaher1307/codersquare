@@ -1,24 +1,22 @@
 const { Post, User } = require('../models/models')
 const crypto = require('crypto')
 
-async function getAllPosts (request, response) {
+const getAllPosts = async (request, response) => {
   const posts = await Post.findAll()
   response.contentType = 'application/json'
   response.status(200).send(posts)
 }
 
-async function postPost (request, response) {
+const postPost = async (request, response) => {
   const { userId, title } = request.body
   const userExists = await User.findOne({ where: { id: userId } })
   const titleExists = await Post.findOne({ where: { title } })
 
   if (!userExists) {
-    response.status(404).send('user doesn\'t exist')
-    return
+    return response.status(404).send('user doesn\'t exist')
   }
   if (titleExists) {
-    response.status(409).send('title already exists')
-    return
+    return response.status(409).send('title already exists')
   }
 
   const newPostId = crypto.randomUUID()
@@ -28,32 +26,30 @@ async function postPost (request, response) {
     title
   })
   const createdPost = await Post.findOne({ where: { title } })
-  response.status(201).send(createdPost)
+  return response.status(201).send(createdPost)
 }
 
-async function getPost (request, response) {
+const getPost = async (request, response) => {
   const postId = request.params.id
   const post = await Post.findOne({ where: { id: postId } })
   if (!post) {
-    response.status(404).send('post not found')
-    return
+    return response.status(404).send('post not found')
   }
   response.status(200).send(post)
 }
 
-async function deletePost (request, response) {
+const deletePost = async (request, response) => {
   const postId = request.params.id
   const post = await Post.findOne({ where: { id: postId } })
   if (!post) {
-    response.status(404).send('post not found')
-    return
+    return response.status(404).send('post not found')
   }
   await Post.destroy({
     where: {
       id: postId
     }
   })
-  response.status(204).send()
+  return response.sendStatus(204)
 }
 
 module.exports = {

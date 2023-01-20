@@ -1,18 +1,16 @@
 const { Post, Comment, User } = require('../models/models')
 const crypto = require('crypto')
 
-async function postComment (request, response) {
+const postComment = async (request, response) => {
   const { userId, postId, comment } = request.body
   const userExists = await User.findOne({ where: { id: userId } })
   const postExists = await Post.findOne({ where: { id: postId } })
 
   if (!userExists) {
-    response.status(404).send('user doesn\'t exist')
-    return
+    return response.status(404).send('user doesn\'t exist')
   }
   if (!postExists) {
-    response.status(404).send('post doesn\'t exist')
-    return
+    return response.status(404).send('post doesn\'t exist')
   }
 
   const newCommentId = crypto.randomUUID()
@@ -22,18 +20,16 @@ async function postComment (request, response) {
     postId,
     comment
   })
-  console.log('database dropped !!!!!!!')
   const createdComment = await Comment.findOne({ where: { id: newCommentId } })
-  response.status(201).send(createdComment)
+  return response.status(201).send(createdComment)
 }
 
-async function getComments (request, response) {
+const getComments = async (request, response) => {
   const postId = request.params.id
   const postExists = await Post.findOne({ where: { id: postId } })
 
   if (!postExists) {
-    response.status(404).send('post doesn\'t exist')
-    return
+    return response.status(404).send('post doesn\'t exist')
   }
 
   const comments = Comment.findAll({
@@ -44,13 +40,12 @@ async function getComments (request, response) {
   response.status(200).send(comments)
 }
 
-async function deleteComment (request, response) {
+const deleteComment = async (request, response) => {
   const commentId = request.params.id
   const commentExists = await Post.findOne({ where: { id: commentId } })
 
   if (!commentExists) {
-    response.status(404).send('post doesn\'t exist')
-    return
+    return response.status(404).send('post doesn\'t exist')
   }
 
   await Comment.destroy({
@@ -58,6 +53,7 @@ async function deleteComment (request, response) {
       id: commentId
     }
   })
+  return response.sendStatus(204)
 }
 
 module.exports = {

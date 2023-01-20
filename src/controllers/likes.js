@@ -1,39 +1,35 @@
 const { Post, Like, User } = require('../models/models')
 const { Op } = require('sequelize')
 
-async function postLike (request, response) {
+const postLike = async (request, response) => {
   const { userId, postId } = request.body
   const userExists = await User.findOne({ where: { id: userId } })
   const postExists = await Post.findOne({ where: { id: postId } })
 
   if (!userExists) {
-    response.status(404).send('user doesn\'t exist')
-    return
+    return response.status(404).send('user doesn\'t exist')
   }
   if (!postExists) {
-    response.status(404).send('post doesn\'t exist')
-    return
+    return response.status(404).send('post doesn\'t exist')
   }
 
   await Like.create({
     userId,
     postId
   })
-  response.status(401).send({ userId, postId })
+  return response.status(401).send({ userId, postId })
 }
 
-async function deleteLike (request, response) {
+const deleteLike = async (request, response) => {
   const { userId, postId } = request.body
   const userExists = await User.findOne({ where: { id: userId } })
   const postExists = await Post.findOne({ where: { id: postId } })
 
   if (!userExists) {
-    response.status(404).send('user doesn\'t exist')
-    return
+    return response.status(404).send('user doesn\'t exist')
   }
   if (!postExists) {
-    response.status(404).send('post doesn\'t exist')
-    return
+    return response.status(404).send('post doesn\'t exist')
   }
 
   await Like.destroy({
@@ -41,7 +37,7 @@ async function deleteLike (request, response) {
       [Op.and]: [{ userId }, { postId }]
     }
   })
-  response.status(204).send()
+  return response.sendStatus(204)
 }
 
 module.exports = {

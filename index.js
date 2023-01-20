@@ -1,8 +1,8 @@
 const express = require('express')
 const app = express()
-const posts = require('./src/routes/posts')
-const likes = require('./src/routes/likes')
-const comments = require('./src/routes/comments')
+const postsRoutes = require('./src/routes/posts')
+const likesRoutes = require('./src/routes/likes')
+const commentsRoutes = require('./src/routes/comments')
 const { initDatabase } = require('./src/models/models');
 
 (async () => {
@@ -10,8 +10,8 @@ const { initDatabase } = require('./src/models/models');
 })()
 
 app.use(express.json())
-app.use('/posts', posts)
-app.use('/likes', likes)
-app.use('/comments', comments)
+app.use('/posts', postsRoutes)
+app.use('/likes', likesRoutes)
+app.use('/comments', commentsRoutes)
 
 app.listen(3000)
