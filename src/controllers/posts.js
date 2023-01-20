@@ -9,6 +9,10 @@ const getAllPosts = async (request, response) => {
 
 const postPost = async (request, response) => {
   const { userId, title } = request.body
+  if (!userId || !title) {
+    return response.status(400).send('bad request: all fields are requried')
+  }
+
   const userExists = await User.findOne({ where: { id: userId } })
   const titleExists = await Post.findOne({ where: { title } })
 
@@ -49,7 +53,7 @@ const deletePost = async (request, response) => {
       id: postId
     }
   })
-  return response.sendStatus(204)
+  return response.sendStatus(200)
 }
 
 module.exports = {

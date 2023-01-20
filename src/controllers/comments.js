@@ -42,10 +42,10 @@ const getComments = async (request, response) => {
 
 const deleteComment = async (request, response) => {
   const commentId = request.params.id
-  const commentExists = await Post.findOne({ where: { id: commentId } })
+  const commentExists = await Comment.findOne({ where: { id: commentId } })
 
   if (!commentExists) {
-    return response.status(404).send('post doesn\'t exist')
+    return response.status(404).send('comment doesn\'t exist')
   }
 
   await Comment.destroy({
@@ -53,7 +53,7 @@ const deleteComment = async (request, response) => {
       id: commentId
     }
   })
-  return response.sendStatus(204)
+  return response.sendStatus(200)
 }
 
 module.exports = {

@@ -37,7 +37,7 @@ const deleteLike = async (request, response) => {
       [Op.and]: [{ userId }, { postId }]
     }
   })
-  return response.sendStatus(204)
+  return response.sendStatus(200)
 }
 
 module.exports = {
