@@ -9,9 +9,7 @@ const { initDatabase } = require('./src/models/models')
 const errMidlleware = require('./src/middlewares/errMiddleware')
 const authMiddleware = require('./src/middlewares/authMiddleware')
 
-;(async () => {
-  await initDatabase()
-})()
+;(async () => { await initDatabase() })()
 
 app.use(express.json())
 app.use(authMiddleware)
