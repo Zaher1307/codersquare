@@ -12,13 +12,11 @@ const authMiddleware = require('./src/middlewares/authMiddleware')
 ;(async () => { await initDatabase() })()
 
 app.use(express.json())
+app.use('/users', usersRoutes)
 app.use(authMiddleware)
-
 app.use('/posts', postsRoutes)
 app.use('/likes', likesRoutes)
 app.use('/comments', commentsRoutes)
-app.use('/users', usersRoutes)
-
 app.use(errMidlleware)
 
 app.listen(3000)

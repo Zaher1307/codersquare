@@ -34,12 +34,8 @@ const postLike = async (request, response) => {
 
 const deleteLike = async (request, response) => {
   const { userId, postId } = request.body
-  const userExists = await User.findOne({ where: { id: userId } })
   const postExists = await Post.findOne({ where: { id: postId } })
 
-  if (!userExists) {
-    return response.status(404).send('user doesn\'t exist')
-  }
   if (!postExists) {
     return response.status(404).send('post doesn\'t exist')
   }

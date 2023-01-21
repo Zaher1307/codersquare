@@ -10,11 +10,12 @@ const deleteLikeMiddleware = async (request, response, next) => {
   const token = authorization.split(' ')[1]
   const { id } = await jwt.verify(token, process.env.SECRET)
   const { postId } = request.body
-  const post = await Like.findOne({ where: { postId } })
-  if (post.userId !== id) {
+  const like = await Like.findOne({ where: { postId } })
+  if (like.userId !== id) {
     return response.status(401).send('user is not authorized')
   }
 
+  request.body.userId = id
   next()
 }
 
