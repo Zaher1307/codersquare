@@ -1,0 +1,283 @@
+---
+openapi: 3.0.0
+info:
+  title: codersquare
+  description: codersquare api documentation
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/AHMEDZAHER1307/codersquare/1.0.0
+  description: SwaggerHub API Auto Mocking
+paths:
+  /user/signup:
+    post:
+      tags:
+      - signup
+      summary: signing up new user
+      operationId: signupUser
+      responses:
+        "201":
+          description: Request successeded and user created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        "400":
+          description: Invalid input
+        "409":
+          description: Anexisting user , already exists
+  /user/login:
+    post:
+      tags:
+      - login
+      summary: login an existing user
+      operationId: loginUser
+      responses:
+        "200":
+          description: Request successeded and user loggedin
+        "400":
+          description: Invalid input
+        "404":
+          description: User not found
+  /posts/:
+    get:
+      tags:
+      - all posts
+      summary: list all posts
+      operationId: getAllPosts
+      responses:
+        "401":
+          description: unauthorized user
+        "200":
+          description: all posts listed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/post'
+    post:
+      tags:
+      - create a post
+      summary: create a post
+      operationId: postPost
+      responses:
+        "401":
+          description: bad request
+        "201":
+          description: post created
+        "404":
+          description: user doesn't exist
+        "409":
+          description: post already exists
+  /posts/{id}:
+    get:
+      tags:
+      - get a post
+      summary: get a post
+      operationId: getPost
+      parameters:
+      - name: id
+        in: path
+        description: id of the post
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "404":
+          description: post not found
+        "200":
+          description: data of the post
+    delete:
+      tags:
+      - delete a post
+      summary: delete a post
+      operationId: deletePost
+      parameters:
+      - name: id
+        in: path
+        description: id of the post
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "404":
+          description: post not found
+        "200":
+          description: post deleted
+  /likes/:
+    post:
+      tags:
+      - like the post
+      operationId: postLike
+      responses:
+        "404":
+          description: post not found
+        "200":
+          description: like posted
+    delete:
+      tags:
+      - unlike the post
+      operationId: deleteLike
+      responses:
+        "404":
+          description: post not found
+        "200":
+          description: like deleted
+  /likes/{id}:
+    get:
+      tags:
+      - get post likes
+      operationId: getLikes
+      parameters:
+      - name: id
+        in: path
+        description: id of the post
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "404":
+          description: post not found
+        "200":
+          description: post likes retrived
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/like'
+  /comments/:
+    post:
+      tags:
+      - comment on post
+      operationId: postComment
+      responses:
+        "404":
+          description: post not found
+        "200":
+          description: comment posted
+  /comments/{id}:
+    get:
+      tags:
+      - get post comments
+      operationId: getComments
+      parameters:
+      - name: id
+        in: path
+        description: id of the post
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "404":
+          description: post not found
+        "200":
+          description: post comments retrived
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+    delete:
+      tags:
+      - delete post comment
+      operationId: deleteComments
+      parameters:
+      - name: id
+        in: path
+        description: id of the comment
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "404":
+          description: comment not found
+        "200":
+          description: comment deleted successfully
+components:
+  schemas:
+    user:
+      required:
+      - email
+      - id
+      - name
+      - password
+      - username
+      type: object
+      properties:
+        id:
+          type: string
+          example: wesf-2ru8923-8r92-r8923j9
+        username:
+          type: string
+          example: zaher
+        email:
+          type: string
+          example: zaher@example.com
+        passowrd:
+          type: string
+          example: ABCabc123!!!
+        name:
+          type: string
+          example: Ahmed Zaher
+    post:
+      required:
+      - createdAt
+      - id
+      - title
+      - userId
+      type: object
+      properties:
+        id:
+          type: string
+          example: wesf-2ru8923-8r92-r8923j9
+        title:
+          type: string
+          example: post title
+        userId:
+          type: string
+          example: wesf-2ru8923-8r92-r8923j9
+        createdAt:
+          type: string
+          example: 2023-01-20 16:21:35.230 +00:00
+    comment:
+      required:
+      - comment
+      - createAt
+      - id
+      - postId
+      - userId
+      type: object
+      properties:
+        id:
+          type: string
+          example: wesf-2ru8923-8r92-r8923j9
+        comment:
+          type: string
+          example: this is a comment
+        userId:
+          type: string
+          example: wesf-2ru8923-8r92-r8923j9
+        postId:
+          type: string
+          example: wesf-2ru8923-8r92-r8923j9
+        createdAt:
+          type: string
+          example: 2023-01-20 16:21:35.230 +00:00
+    like:
+      required:
+      - postId
+      - userId
+      type: object
+      properties:
+        userId:
+          type: string
+          example: wesf-2ru8923-8r92-r8923j9
+        postId:
+          type: string
+          example: wesf-2ru8923-8r92-r8923j9
