@@ -13,8 +13,8 @@ You can find a file for swagger API documentation [ here ](./docs/swagger/AHMEDZ
 
 **Users:**
 ```
-/users/loginIn [POST]
-/users/signUp  [POST]
+/users/login [POST]
+/users/signup  [POST]
 ```
 **Posts:**
 ```
