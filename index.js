@@ -11,7 +11,7 @@ const authMiddleware = require('./src/middlewares/authMiddleware')
 
 const app = express()
 
-; (async () => { await initDatabase() })()
+;(async () => { await initDatabase() })()
 
 app.use(cors())
 app.use(express.json())
