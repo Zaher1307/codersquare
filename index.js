@@ -1,6 +1,6 @@
 require('dotenv').config()
+const cors = require('cors')
 const express = require('express')
-const app = express()
 const postsRoutes = require('./src/routes/posts')
 const likesRoutes = require('./src/routes/likes')
 const commentsRoutes = require('./src/routes/comments')
@@ -9,8 +9,11 @@ const { initDatabase } = require('./src/models/models')
 const errMidlleware = require('./src/middlewares/errMiddleware')
 const authMiddleware = require('./src/middlewares/authMiddleware')
 
-;(async () => { await initDatabase() })()
+const app = express()
 
+; (async () => { await initDatabase() })()
+
+app.use(cors())
 app.use(express.json())
 app.use('/users', usersRoutes)
 app.use(authMiddleware)
