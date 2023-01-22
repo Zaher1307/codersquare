@@ -21,6 +21,7 @@ You can find a file for swagger API documentation [ here ](./docs/swagger/AHMEDZ
 /posts/:id [GET]
 /posts/:id [DELETE]
 /posts/    [POST]
+/posts/    [GET] 
 ```
 **Comments:**
 ```
