@@ -54,4 +54,4 @@ $ npm install
 ```sh
 $ npm start
 ```
-Finally you can use [ postman ](https://www.postman.com/) or build your client to test this API.
+Finally you can use [ postman ](https://www.postman.com/) or build your client to test this API or you can use this client [ coder square ](https://github.com/hazemelfeky/codersquare).
