@@ -1,5 +1,5 @@
 const { Post, Comment, User } = require('../models/models')
-const { responseSender } = require('../utils/responseSender')
+const responseSender = require('../utils/responseSender')
 const crypto = require('crypto')
 
 const postComment = async (request, response) => {

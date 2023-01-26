@@ -1,5 +1,5 @@
 const { Post, Like, User } = require('../models/models')
-const { responseSender } = require('../utils/responseSender')
+const responseSender = require('../utils/responseSender')
 const { Op } = require('sequelize')
 
 const getLikes = async (request, response) => {

@@ -1,6 +1,6 @@
 const { User } = require('../models/models')
 const { Op } = require('sequelize')
-const { responseSender } = require('../utils/responseSender')
+const responseSender = require('../utils/responseSender')
 const bcrypt = require('bcrypt')
 const crypto = require('crypto')
 const validator = require('validator')
