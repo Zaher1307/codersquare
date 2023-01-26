@@ -1,4 +1,4 @@
-const { User } = require('../models/models')
+const { User } = require('../models/index')
 const { Op } = require('sequelize')
 const responseSender = require('../utils/responseSender')
 const bcrypt = require('bcrypt')

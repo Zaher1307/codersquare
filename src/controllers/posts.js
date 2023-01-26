@@ -1,4 +1,5 @@
-const { Post, User } = require('../models/models')
+const { User } = require('../models/index')
+const { Post } = require('../models/post.model')
 const responseSender = require('../utils/responseSender')
 const crypto = require('crypto')
 

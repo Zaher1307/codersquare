@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const { Like } = require('../models/models')
+const { Like } = require('../models/index')
 
 const deleteLikeMiddleware = async (request, response, next) => {
   const { authorization } = request.headers

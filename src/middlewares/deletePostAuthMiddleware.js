@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const { Post } = require('../models/models')
+const { Post } = require('../models/index')
 
 const deletePostMiddleware = async (request, response, next) => {
   const { authorization } = request.headers

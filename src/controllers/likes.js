@@ -1,4 +1,6 @@
-const { Post, Like, User } = require('../models/models')
+const { User } = require('../models/index')
+const { Post } = require('../models/index')
+const { Like } = require('../models/index')
 const responseSender = require('../utils/responseSender')
 const { Op } = require('sequelize')
 

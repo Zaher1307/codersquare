@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const { Comment } = require('../models/models')
+const { Comment } = require('../models/index')
 
 const deleteCommentMiddleware = async (request, response, next) => {
   const { authorization } = request.headers
