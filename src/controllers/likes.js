@@ -1,4 +1,5 @@
 const { Post, Like, User } = require('../models/models')
+const { responseSender } = require('../utils/responseSender')
 const { Op } = require('sequelize')
 
 const getLikes = async (request, response) => {
@@ -6,7 +7,7 @@ const getLikes = async (request, response) => {
   const postExists = await Post.findOne({ where: { id: postId } })
 
   if (!postExists) {
-    return response.status(404).send('post doesn\'t exist')
+    return responseSender(response, 404, 'post doesn\'t exist')
   }
 
   const likes = await Like.findAll({ where: { postId } })
@@ -19,10 +20,10 @@ const postLike = async (request, response) => {
   const postExists = await Post.findOne({ where: { id: postId } })
 
   if (!userExists) {
-    return response.status(404).send('user doesn\'t exist')
+    return responseSender(response, 404, 'user doesn\'t exist')
   }
   if (!postExists) {
-    return response.status(404).send('post doesn\'t exist')
+    return responseSender(response, 404, 'post doesn\'t exist')
   }
 
   try {
@@ -41,7 +42,7 @@ const deleteLike = async (request, response) => {
   const postExists = await Post.findOne({ where: { id: postId } })
 
   if (!postExists) {
-    return response.status(404).send('post doesn\'t exist')
+    return responseSender(response, 404, 'post doesn\'t exist')
   }
 
   try {

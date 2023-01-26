@@ -1,4 +1,5 @@
 const { Post, Comment, User } = require('../models/models')
+const { responseSender } = require('../utils/responseSender')
 const crypto = require('crypto')
 
 const postComment = async (request, response) => {
@@ -7,10 +8,10 @@ const postComment = async (request, response) => {
   const postExists = await Post.findOne({ where: { id: postId } })
 
   if (!userExists) {
-    return response.status(404).send('user doesn\'t exist')
+    return responseSender(response, 404, 'user doesn\'t exist')
   }
   if (!postExists) {
-    return response.status(404).send('post doesn\'t exist')
+    return responseSender(response, 404, 'post doesn\'t exist')
   }
 
   const newCommentId = crypto.randomUUID()
@@ -33,7 +34,7 @@ const getComments = async (request, response) => {
   const postExists = await Post.findOne({ where: { id: postId } })
 
   if (!postExists) {
-    return response.status(404).send('post doesn\'t exist')
+    return responseSender(response, 404, 'post doesn\'t exist')
   }
 
   const comments = Comment.findAll({
@@ -49,7 +50,7 @@ const deleteComment = async (request, response) => {
   const commentExists = await Comment.findOne({ where: { id: commentId } })
 
   if (!commentExists) {
-    return response.status(404).send('comment doesn\'t exist')
+    return responseSender(response, 404, 'comment doesn\'t exist')
   }
 
   try {

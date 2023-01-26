@@ -1,5 +1,6 @@
 const { User } = require('../models/models')
 const { Op } = require('sequelize')
+const { responseSender } = require('../utils/responseSender')
 const bcrypt = require('bcrypt')
 const crypto = require('crypto')
 const validator = require('validator')
@@ -9,7 +10,7 @@ const loginUser = async (request, response) => {
   const { emailOrUsername, password } = request.body
 
   if (!emailOrUsername || !password) {
-    return response.status(400).send('bad request: all fields are requried')
+    return responseSender(response, 400, 'all fields are requried')
   }
 
   const user = await User.findOne({
@@ -21,11 +22,11 @@ const loginUser = async (request, response) => {
     }
   })
   if (!user) {
-    return response.status(404).send('user not found')
+    return responseSender(response, 404, 'user not found')
   }
   const passwordMatch = await bcrypt.compare(password, user.password)
   if (!passwordMatch) {
-    return response.status(400).send('bad request: invalid password')
+    return responseSender(response, 400, 'invalid password')
   }
 
   const token = createToken(user.id)
@@ -37,23 +38,23 @@ const signupUser = async (request, response) => {
   const { username, password, email, name } = request.body
 
   if (!username || !password || !email || !name) {
-    return response.status(400).send('bad request: all fields are requried')
+    return responseSender(response, 400, 'all fields are required')
   }
   if (!validator.isEmail(email)) {
-    return response.status(400).send('bad request: invalid email')
+    return responseSender(response, 400, 'invalid email')
   }
   if (!validator.isStrongPassword(password)) {
-    return response.status(400).send('bad request: weak password')
+    return responseSender(response, 400, 'weak password')
   }
 
   const usernameExists = await User.findOne({ where: { username } })
   const emailExists = await User.findOne({ where: { email } })
 
   if (usernameExists) {
-    return response.status(409).send('username already exists')
+    return responseSender(response, 400, 'username already exists')
   }
   if (emailExists) {
-    return response.status(409).send('email already exists')
+    return responseSender(response, 409, 'email already exists')
   }
 
   const salt = await bcrypt.genSalt(10)

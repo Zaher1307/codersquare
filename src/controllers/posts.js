@@ -1,4 +1,5 @@
 const { Post, User } = require('../models/models')
+const { responseSender } = require('../utils/responseSender')
 const crypto = require('crypto')
 
 const getAllPosts = async (request, response) => {
@@ -10,17 +11,17 @@ const getAllPosts = async (request, response) => {
 const postPost = async (request, response) => {
   const { userId, title } = request.body
   if (!userId || !title) {
-    return response.status(400).send('bad request: all fields are requried')
+    return responseSender(response, 400, 'all fields are requried')
   }
 
   const userExists = await User.findOne({ where: { id: userId } })
   const titleExists = await Post.findOne({ where: { title } })
 
   if (!userExists) {
-    return response.status(404).send('user doesn\'t exist')
+    return responseSender(response, 404, 'user doesn\'t exist')
   }
   if (titleExists) {
-    return response.status(409).send('title already exists')
+    return responseSender(response, 409, 'title already exist')
   }
 
   const newPostId = crypto.randomUUID()
@@ -41,7 +42,7 @@ const getPost = async (request, response) => {
   const postId = request.params.id
   const post = await Post.findOne({ where: { id: postId } })
   if (!post) {
-    return response.status(404).send('post not found')
+    return responseSender(response, 404, 'post not found')
   }
   response.status(200).send(post)
 }
@@ -50,7 +51,7 @@ const deletePost = async (request, response) => {
   const postId = request.params.id
   const post = await Post.findOne({ where: { id: postId } })
   if (!post) {
-    return response.status(404).send('post not found')
+    return responseSender(response, 404, 'post not found')
   }
 
   try {
