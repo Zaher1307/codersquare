@@ -25,11 +25,15 @@ const postLike = async (request, response) => {
     return response.status(404).send('post doesn\'t exist')
   }
 
-  await Like.create({
-    userId,
-    postId
-  })
-  return response.status(200).send({ userId, postId })
+  try {
+    await Like.create({
+      userId,
+      postId
+    })
+    return response.status(200).send({ userId, postId })
+  } catch (err) {
+    return response.sendStatus(500)
+  }
 }
 
 const deleteLike = async (request, response) => {
@@ -40,12 +44,16 @@ const deleteLike = async (request, response) => {
     return response.status(404).send('post doesn\'t exist')
   }
 
-  await Like.destroy({
-    where: {
-      [Op.and]: [{ userId }, { postId }]
-    }
-  })
-  return response.sendStatus(200)
+  try {
+    await Like.destroy({
+      where: {
+        [Op.and]: [{ userId }, { postId }]
+      }
+    })
+    return response.sendStatus(200)
+  } catch (err) {
+    response.sendStatus(500)
+  }
 }
 
 module.exports = {

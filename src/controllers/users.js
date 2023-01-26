@@ -60,18 +60,20 @@ const signupUser = async (request, response) => {
   const hash = await bcrypt.hash(password, salt)
   const newUserId = crypto.randomUUID()
 
-  User.create({
-    id: newUserId,
-    username,
-    email,
-    name,
-    password: hash
-  })
+  try {
+    const createdUser = await User.create({
+      id: newUserId,
+      username,
+      email,
+      name,
+      password: hash
+    })
 
-  const createdUser = await User.findOne({ where: { id: newUserId } })
-  const token = createToken(newUserId)
-
-  return response.status(201).send({ createdUser, token })
+    const token = createToken(newUserId)
+    return response.status(201).send({ createdUser, token })
+  } catch (err) {
+    return response.sendStatus(500)
+  }
 }
 
 const createToken = (id) => {

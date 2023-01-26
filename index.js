@@ -13,6 +13,11 @@ const app = express()
 
 ;(async () => { await initDatabase() })()
 
+app.use((req, res, next) => {
+  console.log(req.get('host'))
+  next()
+})
+
 app.use(cors())
 app.use(express.json())
 app.use('/users', usersRoutes)

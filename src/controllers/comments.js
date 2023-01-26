@@ -14,14 +14,18 @@ const postComment = async (request, response) => {
   }
 
   const newCommentId = crypto.randomUUID()
-  await Comment.create({
-    id: newCommentId,
-    userId,
-    postId,
-    comment
-  })
-  const createdComment = await Comment.findOne({ where: { id: newCommentId } })
-  return response.status(201).send(createdComment)
+
+  try {
+    const createdComment = await Comment.create({
+      id: newCommentId,
+      userId,
+      postId,
+      comment
+    })
+    return response.status(201).send(createdComment)
+  } catch (err) {
+    response.sendStatus(500)
+  }
 }
 
 const getComments = async (request, response) => {
@@ -37,7 +41,7 @@ const getComments = async (request, response) => {
       postId
     }
   })
-  response.status(200).send(comments)
+  return response.status(200).send(comments)
 }
 
 const deleteComment = async (request, response) => {
@@ -48,12 +52,16 @@ const deleteComment = async (request, response) => {
     return response.status(404).send('comment doesn\'t exist')
   }
 
-  await Comment.destroy({
-    where: {
-      id: commentId
-    }
-  })
-  return response.sendStatus(200)
+  try {
+    await Comment.destroy({
+      where: {
+        id: commentId
+      }
+    })
+    return response.sendStatus(200)
+  } catch (err) {
+    response.sendStatus(500)
+  }
 }
 
 module.exports = {

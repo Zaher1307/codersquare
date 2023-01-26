@@ -24,13 +24,17 @@ const postPost = async (request, response) => {
   }
 
   const newPostId = crypto.randomUUID()
-  await Post.create({
-    id: newPostId,
-    userId,
-    title
-  })
-  const createdPost = await Post.findOne({ where: { title } })
-  return response.status(201).send(createdPost)
+
+  try {
+    const createdPost = await Post.create({
+      id: newPostId,
+      userId,
+      title
+    })
+    return response.status(201).send(createdPost)
+  } catch (err) {
+    return response.sendStatus(500)
+  }
 }
 
 const getPost = async (request, response) => {
@@ -48,12 +52,17 @@ const deletePost = async (request, response) => {
   if (!post) {
     return response.status(404).send('post not found')
   }
-  await Post.destroy({
-    where: {
-      id: postId
-    }
-  })
-  return response.sendStatus(200)
+
+  try {
+    await Post.destroy({
+      where: {
+        id: postId
+      }
+    })
+    return response.sendStatus(200)
+  } catch (err) {
+    return response.sendStatus(500)
+  }
 }
 
 module.exports = {
