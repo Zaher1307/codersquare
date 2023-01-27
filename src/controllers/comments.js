@@ -27,6 +27,7 @@ const postComment = async (request, response) => {
     })
     return response.status(201).send(createdComment)
   } catch (err) {
+    console.log(err)
     response.sendStatus(500)
   }
 }

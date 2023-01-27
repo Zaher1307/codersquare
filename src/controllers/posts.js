@@ -1,11 +1,10 @@
 const { User } = require('../models/index')
-const { Post } = require('../models/post.model')
+const { Post } = require('../models/index')
 const responseSender = require('../utils/responseSender')
 const crypto = require('crypto')
 
 const getAllPosts = async (request, response) => {
   const posts = await Post.findAll()
-  response.contentType = 'application/json'
   response.status(200).send(posts)
 }
 

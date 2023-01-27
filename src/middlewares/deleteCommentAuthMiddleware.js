@@ -11,7 +11,7 @@ const deleteCommentMiddleware = async (request, response, next) => {
   const { id } = await jwt.verify(token, process.env.SECRET)
   const commentId = request.params.id
   const comment = await Comment.findOne({ where: { id: commentId } })
-  if (comment.userId !== id) {
+  if (comment || comment.userId !== id) {
     return response.status(401).send('user is not authorized')
   }
 
