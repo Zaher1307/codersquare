@@ -5,7 +5,8 @@ const responseSender = require('../utils/responseSender')
 const crypto = require('crypto')
 
 const postComment = async (request, response) => {
-  const { userId, postId, comment } = request.body
+  const { postId, comment } = request.body
+  const { userId } = response.locals
   const userExists = await User.findOne({ where: { id: userId } })
   const postExists = await Post.findOne({ where: { id: postId } })
 

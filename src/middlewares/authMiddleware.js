@@ -15,6 +15,7 @@ const authMiddleware = async (request, response, next) => {
     if (!user) {
       return responseSender(response, 401, 'user not authorized')
     }
+    response.locals.userId = id
   } catch (err) {
     return responseSender(response, 401, 'invalid token')
   }

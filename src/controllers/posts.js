@@ -9,7 +9,8 @@ const getAllPosts = async (request, response) => {
 }
 
 const postPost = async (request, response) => {
-  const { userId, title } = request.body
+  const { title } = request.body
+  const { userId } = response.locals
   if (!userId || !title) {
     return responseSender(response, 400, 'all fields are requried')
   }
