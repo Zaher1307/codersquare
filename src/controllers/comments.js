@@ -40,7 +40,7 @@ const getComments = async (request, response) => {
     return responseSender(response, 404, 'post doesn\'t exist')
   }
 
-  const comments = Comment.findAll({
+  const comments = await Comment.findAll({
     where: {
       postId
     }
