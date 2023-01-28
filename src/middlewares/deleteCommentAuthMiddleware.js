@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken')
 const { Comment } = require('../models/index')
+const responseSender = require('../utils/responseSender')
 
 const deleteCommentMiddleware = async (request, response, next) => {
   const { authorization } = request.headers
   if (!authorization) {
-    return response.status(401).send('Authorization token required')
+    return responseSender(response, 401, 'Authorization token required')
   }
 
   const token = authorization.split(' ')[1]
@@ -12,7 +13,7 @@ const deleteCommentMiddleware = async (request, response, next) => {
   const commentId = request.params.id
   const comment = await Comment.findOne({ where: { id: commentId } })
   if (comment || comment.userId !== id) {
-    return response.status(401).send('user is not authorized')
+    return responseSender(response, 401, 'user is not authorized')
   }
 
   next()

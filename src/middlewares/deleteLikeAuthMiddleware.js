@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken')
 const { Like } = require('../models/index')
+const responseSender = require('../utils/responseSender')
 
 const deleteLikeMiddleware = async (request, response, next) => {
   const { authorization } = request.headers
   if (!authorization) {
-    return response.status(401).send('Authorization token required')
+    return responseSender(response, 401, 'Authorization token required')
   }
 
   const token = authorization.split(' ')[1]
@@ -12,7 +13,7 @@ const deleteLikeMiddleware = async (request, response, next) => {
   const { postId } = request.body
   const like = await Like.findOne({ where: { postId } })
   if (like.userId !== id) {
-    return response.status(401).send('user is not authorized')
+    return responseSender(response, 401, 'user is not authorized')
   }
 
   request.body.userId = id

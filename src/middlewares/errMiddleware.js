@@ -1,6 +1,8 @@
+const responseSender = require('../utils/responseSender')
+
 const errMidlleware = (err, request, response, next) => {
   console.log(err)
-  return response.status(500).send('Oops, an unexpected error occurred, please try again')
+  return responseSender(response, 500, 'Oops, an unexpected error occurred, please try again')
 }
 
 module.exports = errMidlleware

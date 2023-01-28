@@ -1,9 +1,10 @@
 const jwt = require('jsonwebtoken')
+const responseSender = require('../utils/responseSender')
 
 const createMiddleware = async (request, response, next) => {
   const { authorization } = request.headers
   if (!authorization) {
-    return response.status(401).send('Authorization token required')
+    return responseSender(response, 401, 'Authorization token required')
   }
 
   const token = authorization.split(' ')[1]
