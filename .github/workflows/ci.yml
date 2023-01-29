@@ -1,0 +1,19 @@
+name: codersquare ci
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  code_testing:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: build and run docker image
+      uses: mr-smithers-excellent/docker-build-push@v5
+      with:
+        image: zaher1307/codersquare
+        registry: docker.io
+        dockerfile: Dockerfile
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
