@@ -13,7 +13,7 @@ const authMiddleware = async (request, response, next) => {
     const { id } = await jwt.verify(token, process.env.SECRET)
     const user = await User.findOne({ where: { id } })
     if (!user) {
-      return responseSender(response, 401, 'user not authorized')
+      return responseSender(response, 401, 'user is not authorized')
     }
     response.locals.userId = id
   } catch (err) {
