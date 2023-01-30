@@ -17,3 +17,14 @@ jobs:
         dockerfile: Dockerfile
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
+  test_code:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: run code tests
+      uses: actions/setup-node@v3
+      with: 
+        node-version: 16
+    - run: |
+        npm install
+        npm test
