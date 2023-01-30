@@ -5,7 +5,7 @@ const deletePostMiddleware = async (request, response, next) => {
   const postId = request.params.id
   const post = await Post.findOne({ where: { id: postId, userId: response.locals.userId } })
   if (!post) {
-    return responseSender(response, 401, 'post not found')
+    return responseSender(response, 401, 'user not authorized')
   }
 
   next()

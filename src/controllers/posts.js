@@ -50,11 +50,6 @@ const getPost = async (request, response) => {
 
 const deletePost = async (request, response) => {
   const postId = request.params.id
-  const post = await Post.findOne({ where: { id: postId } })
-  if (!post) {
-    return responseSender(response, 404, 'post not found')
-  }
-
   try {
     await Post.destroy({
       where: {
