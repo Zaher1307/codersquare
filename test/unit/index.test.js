@@ -1,9 +1,12 @@
 const request = require('supertest')
-const { User, Post, Like, Comment } = require('../../src/models/index')
+const { User, Post, Like, Comment, initDatabase } = require(
+  '../../src/models/index'
+)
 const app = require('../../src/app')
 const crypto = require('crypto')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const fs = require('fs/promises')
 
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.SECRET, { expiresIn: '30d' })
@@ -51,6 +54,10 @@ const createLike = async (userId, postId) => {
   })
 }
 
+beforeAll(async () => {
+  await initDatabase()
+})
+
 beforeEach(async () => {
   await User.destroy({
     where: {},
@@ -68,6 +75,10 @@ beforeEach(async () => {
     where: {},
     truncate: true
   })
+})
+
+afterAll(async () => {
+  await fs.unlink('./database.sqlite')
 })
 
 describe('users endpoints', () => {

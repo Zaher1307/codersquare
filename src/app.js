@@ -5,13 +5,10 @@ const postsRoutes = require('./routes/posts')
 const likesRoutes = require('./routes/likes')
 const commentsRoutes = require('./routes/comments')
 const usersRoutes = require('./routes/users')
-const { initDatabase } = require('./models/index')
 const errMidlleware = require('./middlewares/errMiddleware')
 const authMiddleware = require('./middlewares/authMiddleware')
 
 const app = express()
-
-;(async () => { await initDatabase() })()
 
 app.use(cors())
 app.use(express.json())
