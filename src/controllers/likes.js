@@ -21,7 +21,13 @@ const postLike = async (request, response) => {
   const { userId } = response.locals
   const userExists = await User.findOne({ where: { id: userId } })
   const postExists = await Post.findOne({ where: { id: postId } })
-  const likeExists = await Like.findOne({ where: { [Op.and]: [{ userId }, { postId }] } })
+  const likeExists = await Like.findOne({
+    where: {
+      [Op.and]: [
+        { userId }, { postId }
+      ]
+    }
+  })
 
   if (!userExists) {
     return responseSender(response, 404, 'user doesn\'t exist')
