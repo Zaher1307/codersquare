@@ -29,3 +29,12 @@ jobs:
         npm install
         npm ci
         npm test
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: run linter
+      uses: synergy-au/eslint-action@v1
+      with: 
+        rules-path: './.github/workflows/.eslintrc.ci.js'
+        setup-from-package-json: 'true'
